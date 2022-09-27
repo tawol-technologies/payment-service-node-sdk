@@ -1,0 +1,9 @@
+{
+  "name": "payment-service-node-sdk",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/tawol-technologies/payment-service-node-sdk.git",
+  "author": "Ayomide Joysbright Oyediran",
+  "license": "MIT",
+  "private": false
+}
