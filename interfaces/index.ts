@@ -1,4 +1,3 @@
-import {IConfig} from './config';
 import {IGetAccountDetailsPayload} from './payload_banking';
 import {
   IPayWithCardPayload, IPayWithSavedCardPayload, IRefundPayload, IValidateOtpPayload,
@@ -6,25 +5,24 @@ import {
 import {IPayWithMoMoPayload} from './payload_momo_transaction';
 import {ISendOtpPayload} from './payload_otp';
 
-export interface IPPResponse {
+export interface IPPResponse<D = unknown> {
+    status?: string;
     hasError: boolean;
     message: string;
-    data: any;
+    data: D;
     statusCode: number;
 }
 
 export interface ICardPaymentOperations {
-    config: IConfig;
-    payWithCard(payload: IPayWithCardPayload): IPPResponse;
-    payWithSavedCard(payload: IPayWithSavedCardPayload): IPPResponse;
-    validatePaymentByOtp(payload: IValidateOtpPayload): IPPResponse;
-    verifyTransactionId(id: string): IPPResponse;
-    verifyTransactionRef(ref: string): IPPResponse;
-    refund(payload: IRefundPayload): IPPResponse;
+    payWithCard(payload: IPayWithCardPayload): Promise<IPPResponse> | void;
+    payWithSavedCard(payload: IPayWithSavedCardPayload): Promise<IPPResponse> | void;
+    validatePaymentByOtp(payload: IValidateOtpPayload): Promise<IPPResponse> | void;
+    verifyTransactionId(id: string): Promise<IPPResponse> | void;
+    verifyTransactionRef(ref: string): Promise<IPPResponse> | void;
+    refund(payload: IRefundPayload): Promise<IPPResponse> | void;
 }
 
 export interface IMoMoPaymentOperations {
-    config: IConfig;
     pay(payload: IPayWithMoMoPayload): IPPResponse;
 }
 

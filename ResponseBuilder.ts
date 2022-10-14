@@ -1,0 +1,59 @@
+import CustomError from '../tinnie/response/CustomError';
+import Helper from './Helper';
+import {IPPResponse} from './interfaces';
+import {IPayWithCardData} from './interfaces/payload_card_transaction';
+
+export default class ResponseBuilder implements IPPResponse {
+  hasError: boolean;
+  message: string;
+  data: any;
+  statusCode: number;
+  static instance: ResponseBuilder;
+
+  constructor() {
+    this.hasError = false;
+    this.message = '';
+    this.data = null;
+    this.statusCode = 500;
+  }
+
+  static getInstance() {
+    if (!this.instance) {
+      this.instance = new ResponseBuilder();
+    }
+    return this.instance;
+  }
+
+  custom(hasError: boolean, message: string, data: any, statusCode: number) {
+    this.hasError = hasError;
+    this.message = message;
+    this.data = data;
+    this.statusCode = statusCode;
+    return this;
+  }
+
+  ok(message = 'OK', data?: any): ResponseBuilder {
+    this.hasError = false;
+    this.message = message;
+    this.data = data;
+    this.statusCode = 200;
+    return this;
+  }
+
+  error(message?: string, data?: any): ResponseBuilder {
+    this.hasError = true;
+    this.message = message == null? 'Internal Server Error' : message;
+    this.data = data;
+    this.statusCode = 500;
+    return this;
+  }
+
+  static buildFlutterwave(hasError: boolean, load: any): IPPResponse<IPayWithCardData> {
+    return {
+      hasError: hasError,
+      statusCode: load.status ?? 417,
+      ...load.data,
+      data: Helper.snakeOBJToCamelCase(load.data.data),
+    };
+  }
+}

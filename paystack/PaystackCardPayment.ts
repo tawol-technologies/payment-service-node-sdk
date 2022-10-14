@@ -1,33 +1,26 @@
 import {ICardPaymentOperations, IPPResponse} from '../interfaces';
-import {IConfig} from '../interfaces/config';
 import {
   IPayWithCardPayload, IPayWithSavedCardPayload, IValidateOtpPayload,
   IRefundPayload,
 } from '../interfaces/payload_card_transaction';
 
 export default class PaystackCardPayment implements ICardPaymentOperations {
-  config: IConfig;
-
-  constructor(config: IConfig) {
-    this.config = config;
-  }
-
-  payWithCard(payload: IPayWithCardPayload): IPPResponse {
+  payWithCard(payload: IPayWithCardPayload): Promise<IPPResponse> {
     throw new Error('Method not implemented.');
   }
-  payWithSavedCard(payload: IPayWithSavedCardPayload): IPPResponse {
+  payWithSavedCard(payload: IPayWithSavedCardPayload) {
     throw new Error('Method not implemented.');
   }
-  validatePaymentByOtp(payload: IValidateOtpPayload): IPPResponse {
+  validatePaymentByOtp(payload: IValidateOtpPayload) {
     throw new Error('Method not implemented.');
   }
-  verifyTransactionId(id: string): IPPResponse {
+  verifyTransactionId(id: string) {
     throw new Error('Method not implemented.');
   }
-  verifyTransactionRef(ref: string): IPPResponse {
+  verifyTransactionRef(ref: string) {
     throw new Error('Method not implemented.');
   }
-  refund(payload: IRefundPayload): IPPResponse {
+  refund(payload: IRefundPayload) {
     throw new Error('Method not implemented.');
   }
 }

@@ -1,33 +1,41 @@
-import {ICardPaymentOperations, IPPResponse} from '../interfaces';
-import {IConfig} from '../interfaces/config';
+import {FlutterwaveEndPoints} from '../enums/FlutterwaveEndpoints';
+import Helper from '../Helper';
+import {ICardPaymentOperations} from '../interfaces';
 import {
   IPayWithCardPayload, IPayWithSavedCardPayload, IRefundPayload,
   IValidateOtpPayload,
 } from '../interfaces/payload_card_transaction';
+import ResponseBuilder from '../ResponseBuilder';
+import Flutterwave from './Flutterwave';
 
 export default class FlutterwaveCardPayment implements ICardPaymentOperations {
-  config: IConfig;
-
-  constructor(config: IConfig) {
-    this.config = config;
+  async payWithCard(payload: IPayWithCardPayload) {
+    try {
+      // convert to snake case
+      payload = Helper.camelOBJToSnakeCase(payload);
+      const res = await Flutterwave.sendRequest({
+        method: 'POST',
+        url: FlutterwaveEndPoints.CARD_CHARGE,
+        data: payload,
+      });
+      return ResponseBuilder.buildFlutterwave(false, res);
+    } catch (load: any) {
+      return ResponseBuilder.buildFlutterwave(true, load.response);
+    }
   }
-
-  payWithCard(payload: IPayWithCardPayload): IPPResponse {
+  payWithSavedCard(payload: IPayWithSavedCardPayload) {
     throw new Error('Method not implemented.');
   }
-  payWithSavedCard(payload: IPayWithSavedCardPayload): IPPResponse {
+  validatePaymentByOtp(payload: IValidateOtpPayload) {
     throw new Error('Method not implemented.');
   }
-  validatePaymentByOtp(payload: IValidateOtpPayload): IPPResponse {
+  verifyTransactionId(id: string) {
     throw new Error('Method not implemented.');
   }
-  verifyTransactionId(id: string): IPPResponse {
+  verifyTransactionRef(ref: string) {
     throw new Error('Method not implemented.');
   }
-  verifyTransactionRef(ref: string): IPPResponse {
-    throw new Error('Method not implemented.');
-  }
-  refund(payload: IRefundPayload): IPPResponse {
+  refund(payload: IRefundPayload) {
     throw new Error('Method not implemented.');
   }
 }
