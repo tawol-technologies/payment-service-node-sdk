@@ -2,11 +2,13 @@ import {ICardPaymentOperations, IPPResponse} from '../interfaces';
 import {
   IPayWithCardPayload, IPayWithSavedCardPayload, IValidateOtpPayload,
   IRefundPayload,
+  IPayWithCardData,
 } from '../interfaces/payload_card_transaction';
+import ResponseBuilder from '../utils/ResponseBuilder';
 
 export default class PaystackCardPayment implements ICardPaymentOperations {
-  payWithCard(payload: IPayWithCardPayload): Promise<IPPResponse> {
-    throw new Error('Method not implemented.');
+  async payWithCard(payload: IPayWithCardPayload): Promise<IPPResponse<IPayWithCardData>> {
+    return ResponseBuilder.unimplemented<IPayWithCardData>();
   }
   payWithSavedCard(payload: IPayWithSavedCardPayload) {
     throw new Error('Method not implemented.');

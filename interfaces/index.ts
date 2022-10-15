@@ -1,5 +1,6 @@
 import {IGetAccountDetailsPayload} from './payload_banking';
 import {
+  IPayWithCardData,
   IPayWithCardPayload, IPayWithSavedCardPayload, IRefundPayload, IValidateOtpPayload,
 } from './payload_card_transaction';
 import {IPayWithMoMoPayload} from './payload_momo_transaction';
@@ -14,7 +15,7 @@ export interface IPPResponse<D = unknown> {
 }
 
 export interface ICardPaymentOperations {
-    payWithCard(payload: IPayWithCardPayload): Promise<IPPResponse> | void;
+    payWithCard(payload: IPayWithCardPayload): Promise<IPPResponse<IPayWithCardData>>;
     payWithSavedCard(payload: IPayWithSavedCardPayload): Promise<IPPResponse> | void;
     validatePaymentByOtp(payload: IValidateOtpPayload): Promise<IPPResponse> | void;
     verifyTransactionId(id: string): Promise<IPPResponse> | void;

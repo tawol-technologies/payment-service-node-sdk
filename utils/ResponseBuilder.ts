@@ -1,7 +1,6 @@
-import CustomError from '../tinnie/response/CustomError';
 import Helper from './Helper';
-import {IPPResponse} from './interfaces';
-import {IPayWithCardData} from './interfaces/payload_card_transaction';
+import {IPPResponse} from '../interfaces';
+import {IPayWithCardData} from '../interfaces/payload_card_transaction';
 
 export default class ResponseBuilder implements IPPResponse {
   hasError: boolean;
@@ -49,11 +48,21 @@ export default class ResponseBuilder implements IPPResponse {
   }
 
   static buildFlutterwave(hasError: boolean, load: any): IPPResponse<IPayWithCardData> {
+    console.log(load.data);
     return {
       hasError: hasError,
       statusCode: load.status ?? 417,
       ...load.data,
       data: Helper.snakeOBJToCamelCase(load.data.data),
+    };
+  }
+
+  static unimplemented<D>(): IPPResponse<D> {
+    return {
+      hasError: true,
+      statusCode: 404,
+      message: 'Method not implemented',
+      data: {} as D,
     };
   }
 }

@@ -1,6 +1,22 @@
-export interface IPayWithCardPayload {
-    card_number?: string;
+export type TAuthorization = {
+    mode: string;
+    pin: string;
+}
 
+export interface IPayWithCardPayload {cardNumber: string;
+    cvv: string;
+    expiryMonth: string;
+    expiryYear: string;
+    currency: string;
+    amount: string;
+    phoneNumber: string;
+    email: string;
+    fullname: string;
+    txRef: string;
+    redirectUrl: string;
+    pin: string;
+    authorization: TAuthorization,
+    meta:any;
 }
 
 export interface IPayWithSavedCardPayload {
@@ -19,7 +35,7 @@ export interface IRefundPayload {
 
 export interface IPayWithCardData {
     id: number;
-    transactionRef: string;
+    txRef: string;
     flwRef: string;
     deviceFingerprint: string;
     amount: number;

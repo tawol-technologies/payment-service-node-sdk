@@ -1,18 +1,25 @@
 import {FlutterwaveEndPoints} from '../enums/FlutterwaveEndpoints';
-import Helper from '../Helper';
-import {ICardPaymentOperations} from '../interfaces';
+import Helper from '../utils/Helper';
+import {ICardPaymentOperations, IPPResponse} from '../interfaces';
 import {
+  IPayWithCardData,
   IPayWithCardPayload, IPayWithSavedCardPayload, IRefundPayload,
   IValidateOtpPayload,
 } from '../interfaces/payload_card_transaction';
-import ResponseBuilder from '../ResponseBuilder';
+import ResponseBuilder from '../utils/ResponseBuilder';
 import Flutterwave from './Flutterwave';
+import CustomError from '../utils/CustomError';
+import {AuthorizationModeEnum} from '../enums/AuthorizationModeEnum';
 
 export default class FlutterwaveCardPayment implements ICardPaymentOperations {
-  async payWithCard(payload: IPayWithCardPayload) {
+  async payWithCard(payload: IPayWithCardPayload): Promise<IPPResponse<IPayWithCardData>> {
     try {
       // convert to snake case
-      payload = Helper.camelOBJToSnakeCase(payload);
+      payload.authorization = {
+        'mode': AuthorizationModeEnum.PIN,
+        'pin': payload.pin,
+      };
+      payload = Helper.camelOBJToSnakeCase(payload) as IPayWithCardPayload;
       const res = await Flutterwave.sendRequest({
         method: 'POST',
         url: FlutterwaveEndPoints.CARD_CHARGE,
@@ -20,7 +27,7 @@ export default class FlutterwaveCardPayment implements ICardPaymentOperations {
       });
       return ResponseBuilder.buildFlutterwave(false, res);
     } catch (load: any) {
-      return ResponseBuilder.buildFlutterwave(true, load.response);
+      throw CustomError.build(ResponseBuilder.buildFlutterwave(true, load.response));
     }
   }
   payWithSavedCard(payload: IPayWithSavedCardPayload) {
