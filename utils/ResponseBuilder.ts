@@ -48,11 +48,13 @@ export default class ResponseBuilder implements IPPResponse {
   }
 
   static buildFlutterwave(hasError: boolean, load: any): IPPResponse<IPayWithCardData> {
-    console.log(load.data);
     return {
       hasError: hasError,
       statusCode: load.status ?? 417,
       ...load.data,
+      message: load.data &&
+        load.data.message === 'Invalid transaction attempt. No REF Cache'?
+        'Invalid transaction reference' :load.data.message,
       data: Helper.snakeOBJToCamelCase(load.data.data),
     };
   }

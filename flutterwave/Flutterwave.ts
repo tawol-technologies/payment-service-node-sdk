@@ -1,6 +1,6 @@
 import axios, {AxiosRequestConfig} from 'axios';
 import Flutterwave3DES from '../encryptions/Flutterwave3DES';
-import {FlutterwaveEndPoints} from '../enums/FlutterwaveEndpoints';
+import {FlutterwaveEndPointEnum} from './FlutterwaveEndpoints';
 import {
   IProcessorOperations, ICardPaymentOperations, IBankingOperations,
   IMoMoPaymentOperations, IOtpManagerOperations,
@@ -36,14 +36,24 @@ export default class Flutterwave implements IProcessorOperations {
     };
   }
 
-  static sendRequest(config: AxiosRequestConfig) {
+  static sendEncrypted(config: AxiosRequestConfig) {
     return axios({
-      baseURL: FlutterwaveEndPoints.BASE_URL,
+      baseURL: FlutterwaveEndPointEnum.BASE_URL,
       headers: {
         'authorization': 'Bearer '+this.config.secretKey,
       },
       ...config,
       data: this.buildFlutterwavePayload(config.data),
+    });
+  }
+
+  static send(config: AxiosRequestConfig) {
+    return axios({
+      baseURL: FlutterwaveEndPointEnum.BASE_URL,
+      headers: {
+        'authorization': 'Bearer '+this.config.secretKey,
+      },
+      ...config,
     });
   }
 }

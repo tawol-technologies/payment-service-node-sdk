@@ -10,19 +10,19 @@ export default class PaystackCardPayment implements ICardPaymentOperations {
   async payWithCard(payload: IPayWithCardPayload): Promise<IPPResponse<IPayWithCardData>> {
     return ResponseBuilder.unimplemented<IPayWithCardData>();
   }
-  payWithSavedCard(payload: IPayWithSavedCardPayload) {
-    throw new Error('Method not implemented.');
+  async payWithSavedCard(payload: IPayWithSavedCardPayload) {
+    return ResponseBuilder.unimplemented<IPayWithCardData>();
   }
-  validatePaymentByOtp(payload: IValidateOtpPayload) {
-    throw new Error('Method not implemented.');
+  async validatePaymentByOtp(payload: IValidateOtpPayload) {
+    return ResponseBuilder.unimplemented<IPayWithCardData>();
   }
-  verifyTransactionId(id: string) {
-    throw new Error('Method not implemented.');
+  async verifyTransactionId(id: number) {
+    return ResponseBuilder.unimplemented<IPayWithCardData>();
   }
-  verifyTransactionRef(ref: string) {
-    throw new Error('Method not implemented.');
+  async verifyTransactionRef(ref: string) {
+    return ResponseBuilder.unimplemented<IPayWithCardData>();
   }
-  refund(payload: IRefundPayload) {
-    throw new Error('Method not implemented.');
+  async refund(payload: IRefundPayload) {
+    return ResponseBuilder.unimplemented<IPayWithCardData>();
   }
 }

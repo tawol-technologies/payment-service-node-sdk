@@ -69,11 +69,7 @@ export interface IPayWithCardData {
         country: string;
         type: string;
         expiry: string;
+        token: string;
     },
-    meta: {
-        authorization: {
-            mode: string;
-            endpoint: string;
-        }
-    }
+    meta: any;
 }

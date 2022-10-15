@@ -1,9 +1,10 @@
 /* eslint-disable no-unused-vars */
-export enum FlutterwaveEndPoints {
+export enum FlutterwaveEndPointEnum {
     BASE_URL = 'https://api.flutterwave.com/v3',
     CARD_CHARGE = '/charges?type=card',
-    TOKENIZED_CHARGE = '',
-    VALIDATE_OTP = '',
+    VALIDATE_CHARGE = '/validate-charge',
+    TOKENIZED_CHARGE = '/tokenized-charges',
+    TRANSACTION = '/transactions',
     VERIFY_TX_ID = '',
     VERIFY_TX_REF = '',
     REFUND = '',

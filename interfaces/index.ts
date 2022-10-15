@@ -16,11 +16,11 @@ export interface IPPResponse<D = unknown> {
 
 export interface ICardPaymentOperations {
     payWithCard(payload: IPayWithCardPayload): Promise<IPPResponse<IPayWithCardData>>;
-    payWithSavedCard(payload: IPayWithSavedCardPayload): Promise<IPPResponse> | void;
-    validatePaymentByOtp(payload: IValidateOtpPayload): Promise<IPPResponse> | void;
-    verifyTransactionId(id: string): Promise<IPPResponse> | void;
-    verifyTransactionRef(ref: string): Promise<IPPResponse> | void;
-    refund(payload: IRefundPayload): Promise<IPPResponse> | void;
+    payWithSavedCard(payload: IPayWithSavedCardPayload): Promise<IPPResponse>;
+    validatePaymentByOtp(payload: IValidateOtpPayload): Promise<IPPResponse<IPayWithCardData>>;
+    verifyTransactionId(id: number): Promise<IPPResponse<IPayWithCardData>>;
+    verifyTransactionRef(ref: string): Promise<IPPResponse<IPayWithCardData>>;
+    refund(payload: IRefundPayload): Promise<IPPResponse<IPayWithCardData>>;
 }
 
 export interface IMoMoPaymentOperations {
