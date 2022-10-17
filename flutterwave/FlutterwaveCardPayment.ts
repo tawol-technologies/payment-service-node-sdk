@@ -49,7 +49,7 @@ export default class FlutterwaveCardPayment implements ICardPaymentOperations {
 
   async verifyTransactionId(id: number) {
     try {
-      const res = await Flutterwave.sendEncrypted({
+      const res = await Flutterwave.send({
         method: 'GET',
         url: FlutterwaveEndPointEnum.TRANSACTION+`/${id}/verify`,
       });
@@ -60,7 +60,17 @@ export default class FlutterwaveCardPayment implements ICardPaymentOperations {
   }
 
   async payWithSavedCard(payload: IPayWithSavedCardPayload) {
-    return ResponseBuilder.unimplemented<IPayWithCardData>();
+    try {
+      payload = Helper.camelOBJToSnakeCase(payload) as IPayWithSavedCardPayload;
+      const res = await Flutterwave.send({
+        method: 'POST',
+        url: FlutterwaveEndPointEnum.TOKENIZED_CHARGE,
+        data: payload,
+      });
+      return ResponseBuilder.buildFlutterwave(false, res);
+    } catch (load: any) {
+      throw CustomError.build(ResponseBuilder.buildFlutterwave(true, load.response));
+    }
   }
 
   async verifyTransactionRef(ref: string) {

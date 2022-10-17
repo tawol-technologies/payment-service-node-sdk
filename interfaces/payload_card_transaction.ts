@@ -21,6 +21,12 @@ export interface IPayWithCardPayload {cardNumber: string;
 
 export interface IPayWithSavedCardPayload {
     token: string;
+    amount: number;
+    email: string;
+    firstName: string;
+    lastName: string;
+    ip: string;
+    txRef: string;
 }
 
 export interface IValidateOtpPayload {

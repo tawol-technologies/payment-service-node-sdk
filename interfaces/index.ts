@@ -16,7 +16,7 @@ export interface IPPResponse<D = unknown> {
 
 export interface ICardPaymentOperations {
     payWithCard(payload: IPayWithCardPayload): Promise<IPPResponse<IPayWithCardData>>;
-    payWithSavedCard(payload: IPayWithSavedCardPayload): Promise<IPPResponse>;
+    payWithSavedCard(payload: IPayWithSavedCardPayload): Promise<IPPResponse<IPayWithCardData>>;
     validatePaymentByOtp(payload: IValidateOtpPayload): Promise<IPPResponse<IPayWithCardData>>;
     verifyTransactionId(id: number): Promise<IPPResponse<IPayWithCardData>>;
     verifyTransactionRef(ref: string): Promise<IPPResponse<IPayWithCardData>>;
