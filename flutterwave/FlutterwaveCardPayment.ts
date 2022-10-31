@@ -1,33 +1,79 @@
-import {ICardPaymentOperations, IPPResponse} from '../interfaces';
-import {IConfig} from '../interfaces/config';
+import {FlutterwaveEndPointEnum} from './FlutterwaveEndpoints';
+import Helper from '../utils/Helper';
+import {ICardPaymentOperations} from '../interfaces';
 import {
-  IPayWithCardPayload, IPayWithSavedCardPayload, IRefundPayload,
+  IPayWithCardData,
+  IPayWithCardPayload, IPayWithSavedCardPayload,
   IValidateOtpPayload,
 } from '../interfaces/payload_card_transaction';
+import ResponseBuilder from '../utils/ResponseBuilder';
+import Flutterwave from './Flutterwave';
+import CustomError from '../utils/CustomError';
+import {AuthorizationModeEnum} from '../enums/AuthorizationModeEnum';
 
 export default class FlutterwaveCardPayment implements ICardPaymentOperations {
-  config: IConfig;
-
-  constructor(config: IConfig) {
-    this.config = config;
+  async payWithCard(payload: IPayWithCardPayload) {
+    try {
+      // convert to snake case
+      payload.authorization = {
+        'mode': AuthorizationModeEnum.PIN,
+        'pin': payload.pin,
+      };
+      payload = Helper.camelOBJToSnakeCase(payload) as IPayWithCardPayload;
+      const res = await Flutterwave.sendEncrypted({
+        method: 'POST',
+        url: FlutterwaveEndPointEnum.CARD_CHARGE,
+        data: payload,
+      });
+      return ResponseBuilder.buildFlutterwave(false, res);
+    } catch (load: any) {
+      throw CustomError.build(ResponseBuilder.buildFlutterwave(true, load.response));
+    }
   }
 
-  payWithCard(payload: IPayWithCardPayload): IPPResponse {
-    throw new Error('Method not implemented.');
+  async validatePaymentByOtp(payload: IValidateOtpPayload) {
+    try {
+      const res = await Flutterwave.send({
+        method: 'POST',
+        url: FlutterwaveEndPointEnum.VALIDATE_CHARGE,
+        data: {
+          otp: payload.otp,
+          flw_ref: payload.ref,
+        },
+      });
+      return ResponseBuilder.buildFlutterwave(false, res);
+    } catch (load: any) {
+      throw CustomError.build(ResponseBuilder.buildFlutterwave(true, load.response));
+    }
   }
-  payWithSavedCard(payload: IPayWithSavedCardPayload): IPPResponse {
-    throw new Error('Method not implemented.');
+
+  async verifyTransactionId(id: number) {
+    try {
+      const res = await Flutterwave.send({
+        method: 'GET',
+        url: FlutterwaveEndPointEnum.TRANSACTION+`/${id}/verify`,
+      });
+      return ResponseBuilder.buildFlutterwave(false, res);
+    } catch (load: any) {
+      throw CustomError.build(ResponseBuilder.buildFlutterwave(true, load.response));
+    }
   }
-  validatePaymentByOtp(payload: IValidateOtpPayload): IPPResponse {
-    throw new Error('Method not implemented.');
+
+  async payWithSavedCard(payload: IPayWithSavedCardPayload) {
+    try {
+      payload = Helper.camelOBJToSnakeCase(payload) as IPayWithSavedCardPayload;
+      const res = await Flutterwave.send({
+        method: 'POST',
+        url: FlutterwaveEndPointEnum.TOKENIZED_CHARGE,
+        data: payload,
+      });
+      return ResponseBuilder.buildFlutterwave(false, res);
+    } catch (load: any) {
+      throw CustomError.build(ResponseBuilder.buildFlutterwave(true, load.response));
+    }
   }
-  verifyTransactionId(id: string): IPPResponse {
-    throw new Error('Method not implemented.');
-  }
-  verifyTransactionRef(ref: string): IPPResponse {
-    throw new Error('Method not implemented.');
-  }
-  refund(payload: IRefundPayload): IPPResponse {
-    throw new Error('Method not implemented.');
+
+  async verifyTransactionRef(ref: string) {
+    return ResponseBuilder.unimplemented<IPayWithCardData>();
   }
 }

@@ -15,8 +15,8 @@ export default class Paystack implements IProcessorOperations {
   banking: IBankingOperations;
 
   constructor(config: IConfig) {
-    this.cardPayment = new PaystackCardPayment(config);
-    this.momoPayment = new PaystackMomoPayment(config);
+    this.cardPayment = new PaystackCardPayment();
+    this.momoPayment = new PaystackMomoPayment();
     this.otpManager = new PaystackOtpManager();
     this.banking = new PaystackBanking();
   }

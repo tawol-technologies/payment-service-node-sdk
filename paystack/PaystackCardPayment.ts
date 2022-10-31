@@ -1,33 +1,24 @@
 import {ICardPaymentOperations, IPPResponse} from '../interfaces';
-import {IConfig} from '../interfaces/config';
 import {
   IPayWithCardPayload, IPayWithSavedCardPayload, IValidateOtpPayload,
-  IRefundPayload,
+  IPayWithCardData,
 } from '../interfaces/payload_card_transaction';
+import ResponseBuilder from '../utils/ResponseBuilder';
 
 export default class PaystackCardPayment implements ICardPaymentOperations {
-  config: IConfig;
-
-  constructor(config: IConfig) {
-    this.config = config;
+  async payWithCard(payload: IPayWithCardPayload): Promise<IPPResponse<IPayWithCardData>> {
+    return ResponseBuilder.unimplemented<IPayWithCardData>();
   }
-
-  payWithCard(payload: IPayWithCardPayload): IPPResponse {
-    throw new Error('Method not implemented.');
+  async payWithSavedCard(payload: IPayWithSavedCardPayload) {
+    return ResponseBuilder.unimplemented<IPayWithCardData>();
   }
-  payWithSavedCard(payload: IPayWithSavedCardPayload): IPPResponse {
-    throw new Error('Method not implemented.');
+  async validatePaymentByOtp(payload: IValidateOtpPayload) {
+    return ResponseBuilder.unimplemented<IPayWithCardData>();
   }
-  validatePaymentByOtp(payload: IValidateOtpPayload): IPPResponse {
-    throw new Error('Method not implemented.');
+  async verifyTransactionId(id: number) {
+    return ResponseBuilder.unimplemented<IPayWithCardData>();
   }
-  verifyTransactionId(id: string): IPPResponse {
-    throw new Error('Method not implemented.');
-  }
-  verifyTransactionRef(ref: string): IPPResponse {
-    throw new Error('Method not implemented.');
-  }
-  refund(payload: IRefundPayload): IPPResponse {
-    throw new Error('Method not implemented.');
+  async verifyTransactionRef(ref: string) {
+    return ResponseBuilder.unimplemented<IPayWithCardData>();
   }
 }

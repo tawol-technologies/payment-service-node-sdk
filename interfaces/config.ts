@@ -10,6 +10,11 @@ export enum CountryCodeEnum {
     ZIMBABWE='ZAM'
 }
 
+export enum CaseType {
+    SNAKE_CASE,
+    CAMEL_CASE
+}
+
 export interface IConfig {
     secretKey: string;
     publicKey: string;

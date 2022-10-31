@@ -1,30 +1,28 @@
-import {IConfig} from './config';
 import {IGetAccountDetailsPayload} from './payload_banking';
 import {
-  IPayWithCardPayload, IPayWithSavedCardPayload, IRefundPayload, IValidateOtpPayload,
+  IPayWithCardData, IPayWithCardPayload, IPayWithSavedCardPayload,
+  IRefundPayload, ITransferPayload, IValidateOtpPayload,
 } from './payload_card_transaction';
 import {IPayWithMoMoPayload} from './payload_momo_transaction';
 import {ISendOtpPayload} from './payload_otp';
 
-export interface IPPResponse {
+export interface IPPResponse<D = unknown> {
+    status?: string;
     hasError: boolean;
     message: string;
-    data: any;
+    data: D;
     statusCode: number;
 }
 
 export interface ICardPaymentOperations {
-    config: IConfig;
-    payWithCard(payload: IPayWithCardPayload): IPPResponse;
-    payWithSavedCard(payload: IPayWithSavedCardPayload): IPPResponse;
-    validatePaymentByOtp(payload: IValidateOtpPayload): IPPResponse;
-    verifyTransactionId(id: string): IPPResponse;
-    verifyTransactionRef(ref: string): IPPResponse;
-    refund(payload: IRefundPayload): IPPResponse;
+    payWithCard(payload: IPayWithCardPayload): Promise<IPPResponse<IPayWithCardData>>;
+    payWithSavedCard(payload: IPayWithSavedCardPayload): Promise<IPPResponse<IPayWithCardData>>;
+    validatePaymentByOtp(payload: IValidateOtpPayload): Promise<IPPResponse<IPayWithCardData>>;
+    verifyTransactionId(id: number): Promise<IPPResponse<IPayWithCardData>>;
+    verifyTransactionRef(ref: string): Promise<IPPResponse<IPayWithCardData>>;
 }
 
 export interface IMoMoPaymentOperations {
-    config: IConfig;
     pay(payload: IPayWithMoMoPayload): IPPResponse;
 }
 
@@ -36,6 +34,8 @@ export interface IOtpManagerOperations {
 export interface IBankingOperations {
     getAccountDetails(payload: IGetAccountDetailsPayload): IPPResponse;
     getBanks(): IPPResponse;
+    transfer(payload: ITransferPayload): Promise<IPPResponse<any>>;
+    refund(payload: IRefundPayload): Promise<IPPResponse<any>>;
 }
 
 export interface IProcessorOperations {
