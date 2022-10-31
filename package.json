@@ -1,0 +1,14 @@
+{
+  "name": "ttl-payment-sdk",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/tawol-technologies/payment-service-node-sdk.git",
+  "author": "Ayomide Joysbright Oyediran",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "flutterwave-node-v3": "^1.0.11",
+    "paystack-node": "^0.3.0",
+    "node-forge": "1.3.0"
+  }
+}
