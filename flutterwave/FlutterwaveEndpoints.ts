@@ -5,6 +5,7 @@ export enum FlutterwaveEndPointEnum {
     VALIDATE_CHARGE = '/validate-charge',
     TOKENIZED_CHARGE = '/tokenized-charges',
     TRANSACTION = '/transactions',
+    TRANSFER = '/transfers',
     VERIFY_TX_ID = '',
     VERIFY_TX_REF = '',
     REFUND = '',

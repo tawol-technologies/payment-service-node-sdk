@@ -3,7 +3,7 @@ import Helper from '../utils/Helper';
 import {ICardPaymentOperations} from '../interfaces';
 import {
   IPayWithCardData,
-  IPayWithCardPayload, IPayWithSavedCardPayload, IRefundPayload,
+  IPayWithCardPayload, IPayWithSavedCardPayload,
   IValidateOtpPayload,
 } from '../interfaces/payload_card_transaction';
 import ResponseBuilder from '../utils/ResponseBuilder';
@@ -74,9 +74,6 @@ export default class FlutterwaveCardPayment implements ICardPaymentOperations {
   }
 
   async verifyTransactionRef(ref: string) {
-    return ResponseBuilder.unimplemented<IPayWithCardData>();
-  }
-  async refund(payload: IRefundPayload) {
     return ResponseBuilder.unimplemented<IPayWithCardData>();
   }
 }

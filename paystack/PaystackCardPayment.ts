@@ -1,7 +1,6 @@
 import {ICardPaymentOperations, IPPResponse} from '../interfaces';
 import {
   IPayWithCardPayload, IPayWithSavedCardPayload, IValidateOtpPayload,
-  IRefundPayload,
   IPayWithCardData,
 } from '../interfaces/payload_card_transaction';
 import ResponseBuilder from '../utils/ResponseBuilder';
@@ -20,9 +19,6 @@ export default class PaystackCardPayment implements ICardPaymentOperations {
     return ResponseBuilder.unimplemented<IPayWithCardData>();
   }
   async verifyTransactionRef(ref: string) {
-    return ResponseBuilder.unimplemented<IPayWithCardData>();
-  }
-  async refund(payload: IRefundPayload) {
     return ResponseBuilder.unimplemented<IPayWithCardData>();
   }
 }

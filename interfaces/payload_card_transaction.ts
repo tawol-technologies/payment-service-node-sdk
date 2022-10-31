@@ -39,6 +39,20 @@ export interface IRefundPayload {
     amount: string;
 }
 
+export interface ITransferPayload {
+    accountBank: string;
+    accountNumber: string;
+    amount: number;
+    narration?: string;
+    currency?: string;
+    reference: string;
+    callbackUrl?: string;
+    debitCurrency?: string;
+    beneficiaryName?: string;
+    destinationBranchCode?: string;
+    meta: any;
+}
+
 export interface IPayWithCardData {
     id: number;
     txRef: string;
