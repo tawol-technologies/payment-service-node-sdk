@@ -15,7 +15,7 @@ export interface IPayWithCardPayload {cardNumber: string;
     txRef: string;
     redirectUrl: string;
     pin: string;
-    authorization: TAuthorization,
+    authorization?: TAuthorization,
     meta:any;
 }
 
@@ -92,4 +92,29 @@ export interface IPayWithCardData {
         token: string;
     },
     meta: any;
+}
+
+export type TUpdateTransferPayload<T = any> = {
+    event: string;
+    'event.type': string;
+    data: {
+        id: number;
+        account_number: string;
+        bank_name: string;
+        bank_code: string;
+        fullname: string;
+        created_at: string;
+        currency: string;
+        debit_currency: string;
+        amount: number;
+        fee: number;
+        status: 'SUCCESSFUL' | 'FAILED';
+        reference: string;
+        meta: T;
+        narration: string;
+        approver: null;
+        complete_message: string;
+        requires_approval: number;
+        is_approved: number;
+    }
 }
